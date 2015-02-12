@@ -1,5 +1,5 @@
 ---
-layout: cat-index
+layout: default
 title: Blog
 cat: b
 ---

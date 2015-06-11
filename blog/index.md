@@ -5,4 +5,4 @@ title: Blog
 
 Latest entries in blog:
 
-{% include list-cat-posts param="blog" %}
+ include list-cat-posts param="blog" %}

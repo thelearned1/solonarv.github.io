@@ -2,7 +2,7 @@
 function doIt(){
     var input = document.getElementById("spectrify-input"),
         output = document.getElementById("spectrify-result");
-    output.text = spectrify(input.value);
+    output.textContent = spectrify(input.value);
 }
 
 function spectrify(txt){

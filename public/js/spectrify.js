@@ -1,5 +1,5 @@
-var input = document.getElementById("spectrify-input"),
-    output = document.getElementById("spectrify-result");
+input = document.getElementById("spectrify-input");
+output = document.getElementById("spectrify-result");
 
 // Literally the only non-functional code in this file. Yay!
 function doIt(){

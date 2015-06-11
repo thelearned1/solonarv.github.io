@@ -7,7 +7,7 @@ function doIt(){
 }
 
 function spectrify(txt){
-    var words = input.split(" "),
+    var words = txt.split(" "),
         reversed = reverse(txt),
         reversedWords = words.map(reverse).join(" ");
     return interleaveS(txt, reversed, reversedWords);

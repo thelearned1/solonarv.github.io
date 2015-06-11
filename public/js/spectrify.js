@@ -17,7 +17,7 @@ function reverse(s){
 }
 
 function interleaveS(){
-    var strs = args;
+    var strs = arguments;
     return flatten(strs[0].split("").map(function (_, ix){
         return strs.map(function (s){ return s[ix]; });
     })).join("")

@@ -1,37 +1,22 @@
----
-layout: default
-title: Home
----
+<DOCTYPE html>
 
-<div class="posts">
-  {% for post in paginator.posts %}
-  <article class="post">
-    <h1 class="post-title">
-      <a href="{{ post.url }}">
-        {{ post.title }}
-      </a>
-    </h1>
+<html lang=:en">
+<head>
+    <title>Solonarv's Shitty Website</title>
+    <link rel="stylesheet" href="css/poole.css" />
+</head>
+<body>
 
-    <time datetime="{{ post.date | date_to_xmlschema }}" class="post-date">{{ post.date | date_to_string }}</time>
+<h1>Solonarv's Shitty Website</h1>
 
-    {{ post.content }}
-  </article>
-  {% endfor %}
-</div>
+<p>Welcome to my shitty website. There are currently only JS gimmicks here.</p>
 
-<div class="pagination">
-  {% if paginator.next_page %}
-    <a class="pagination-item older" href="{{ site.baseurl }}page{{paginator.next_page}}">Older</a>
-  {% else %}
-    <span class="pagination-item older">Older</span>
-  {% endif %}
-  {% if paginator.previous_page %}
-    {% if paginator.page == 2 %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}">Newer</a>
-    {% else %}
-      <a class="pagination-item newer" href="{{ site.baseurl }}page{{paginator.previous_page}}">Newer</a>
-    {% endif %}
-  {% else %}
-    <span class="pagination-item newer">Newer</span>
-  {% endif %}
-</div>
+<h3>JS utilities</h3>
+<ul>
+    <li><a href="spectrify.html">Spectrify</a>: modify text to sound vaguely similar to Spectre from Dota 2</li>
+    <li><a href="lab-calc.html">Labyrinth Calculator</a>: calculate how much regen/armour/phys reduction you need to facetank labyrinth traps in Path of Exile</li>
+</ul>
+
+
+</body>
+</html>

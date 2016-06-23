@@ -8,67 +8,97 @@
 
 <h1>Labyrinth Facetank Calculator</h1>
 
+<form oninput="update()">
+
 <h3>Pool</h3>
-<table>
-  <tr>
-    <td>Life</td>
-    <td><input type="number" id="life" /></td>
-  </tr>
-  <tr>
-    <td>Energy shield</td>
-    <td><input type="number" id="shield" /></td>
-  </tr>
-</table>
+  <table>
+    <tr>
+      <td>Life</td>
+      <td><input type="number" id="life" /></td>
+    </tr>
+    <tr>
+      <td>Energy shield</td>
+      <td><input type="number" id="shield" /></td>
+    </tr>
+  </table>
 
-<h3>Regen</h3>
-<table>
-  <tr>
-    <td><input type="number" id="percentregen" /></td>
-    <td>% life regen on tree</td>
-  </tr>
-  <tr>
-    <td colspan=2><input type="checkbox" id="scionoccultist" /><label for="scionoccultist">Scion-Occultist (1% ES regen)</td>
-  </tr>
-  <tr>
-    <td colspan=2><input type="checkbox" id="zealotsoath" /><label for="zealotsoath">Zealot's Oath</label></td>
-  </tr>
-  <tr>
-    <td colspan=2><input type="checkbox" id="shaperseed" /><label for="shaperseed">Shaper's Seed (2% life regen)</label></td>
-  </tr>
-  <tr>
-    <td colspan=2><input type="checkbox" id="shavsrevel" /><label for="shavsrevel">Shavronne's Revelation (3% ES regen when in in right ring slot</label></td>
-  </tr>
-  <tr>
-    <td><input type="number" id="endregen" /></td>
-    <td>% life regen per endurance charge</td>
-  </tr>
-  <tr>
-    <td>Vitality aura level</td>
-    <td><input type="number" id="vitalitylevel"></td>
-  </tr>
-  <tr>
-    <td>Rejuvenation Totem level</td>
-    <td><input type="number" id="rejuvlevel">
-  </tr>
-</table>
+  <h3>Regen</h3>
+  <table>
+    <tr>
+      <td><input type="number" id="percentregen" /></td>
+      <td>% life regen on tree</td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="checkbox" id="scionoccultist" /><label for="scionoccultist">Scion-Occultist (1% ES regen)</td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="checkbox" id="zealotsoath" /><label for="zealotsoath">Zealot's Oath</label></td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="checkbox" id="shaperseed" /><label for="shaperseed">Shaper's Seed (2% life regen)</label></td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="checkbox" id="shavsrevel" /><label for="shavsrevel">Shavronne's Revelation (3% ES regen when in in right ring slot</label></td>
+    </tr>
+    <tr>
+      <td><input type="number" id="endregen" /></td>
+      <td>% life regen per endurance charge</td>
+    </tr>
+    <tr>
+      <td>Level <input type="number" id="vitalitylevel"></td>
+      <td>Vitality</td>
+    </tr>
+    <tr>
+      <td>Level <input type="number" id="rejuvlevel"></td>
+      <td>Rejuvenation Totem</td>
+    </tr>
+  </table>
 
-<h3>Other</h3>
-<table>
-  <tr>
-    <td colspan=2><input type="checkbox" id="basalt" /><label for="basalt">Basalt Flask (20% phys reduction)</label></td>
-  </tr>
-  <tr>
-    <td><input type="number" id="flaskeffect" />
-    <td>% increased Effect of Flasks</td>
-  </tr>
-  <tr>
-    <td colspan=2><input type="checkbox" id="soulofsteel" /><label for="soulofsteel">Soul of Steel (4% phys reduction)</label></td>
-  </tr>
-  <tr>
-    <td><input type="number" id="endcharges" /></td>
-    <td>endurance charges</td>
-  </tr>
-</table>
+  <h3>Other</h3>
+  <table>
+    <tr>
+      <td colspan=2><input type="checkbox" id="basalt" /><label for="basalt">Basalt Flask (20% phys reduction)</label></td>
+    </tr>
+    <tr>
+      <td><input type="number" id="flaskeffect" />
+      <td>% increased Effect of Flasks</td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="checkbox" id="soulofsteel" /><label for="soulofsteel">Soul of Steel (4% phys reduction)</label></td>
+    </tr>
+    <tr>
+      <td><input type="number" id="endcharges" /></td>
+      <td>endurance charges</td>
+    </tr>
+    <tr>
+      <td colspan=2>Base trap damage:</td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="number" id="trapdps" value="100" />% EHP per second
+                <br>as <input type="number" id="traprate" value="10" /> hits per second
+    </tr>
+  </table>
+
+  <h3>Results</h3>
+  <table>
+    <tr>
+      <td>Life regenerated per second</td>
+      <td><output id="liferegenflat" /> life</td>
+      <td><output id="liferegenpercent"/> % of maximum life</td>
+    </tr>
+    <tr>
+      <td>Energy Shield regenerated per second</td>
+      <td><output id="liferegenflat" /> ES</td>
+      <td><output id="liferegenpercent"/> % of maximum energy shield</td>
+    </tr>
+    <tr>
+      <td>To facetank traps, you need:</td>
+      <td><output id="extraphysred" /> extra physiscal damage reduction</td>
+      <td>or <output id="armour" /> armour.</td>
+    </tr>
+  </table>
+
+</form>
 
 </body>
 </html>

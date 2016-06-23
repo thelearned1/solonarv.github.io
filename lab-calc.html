@@ -4,28 +4,28 @@
     <link rel="stylesheet" href="css/poole.css" />
     <script type="text/javascript" src="js/lab-calc.js"></script>
 </head>
-<body>
+<body onload="window.labcalc.init()" >
 
 <h1>Labyrinth Facetank Calculator</h1>
 
-<form oninput="update()">
+<form onchange="window.labcalc.update()">
 
 <h3>Pool</h3>
   <table>
     <tr>
       <td>Life</td>
-      <td><input type="number" id="life" /></td>
+      <td><input type="number" id="life" value=5000 min=1 /></td>
     </tr>
     <tr>
       <td>Energy shield</td>
-      <td><input type="number" id="shield" /></td>
+      <td><input type="number" id="shield" value=0 min=0 /></td>
     </tr>
   </table>
 
-  <h3>Regen</h3>
+  <h3>Regeneration</h3>
   <table>
     <tr>
-      <td><input type="number" id="percentregen" /></td>
+      <td><input type="number" id="percentregen" min=0 /></td>
       <td>% life regen on tree</td>
     </tr>
     <tr>
@@ -41,15 +41,15 @@
       <td colspan=2><input type="checkbox" id="shavsrevel" /><label for="shavsrevel">Shavronne's Revelation (3% ES regen when in in right ring slot</label></td>
     </tr>
     <tr>
-      <td><input type="number" id="endregen" /></td>
+      <td><input type="number" id="endregen" value=0 min=0 /></td>
       <td>% life regen per endurance charge</td>
     </tr>
     <tr>
-      <td>Level <input type="number" id="vitalitylevel"></td>
+      <td>Level <input type="number" id="vitalitylevel" value=0 min=0 max=30 /></td>
       <td>Vitality</td>
     </tr>
     <tr>
-      <td>Level <input type="number" id="rejuvlevel"></td>
+      <td>Level <input type="number" id="rejuvlevel" value=0 min=0 max=30 /></td>
       <td>Rejuvenation Totem</td>
     </tr>
   </table>
@@ -60,22 +60,22 @@
       <td colspan=2><input type="checkbox" id="basalt" /><label for="basalt">Basalt Flask (20% phys reduction)</label></td>
     </tr>
     <tr>
-      <td><input type="number" id="flaskeffect" />
+      <td><input type="number" id="flaskeffect" min=0 />
       <td>% increased Effect of Flasks</td>
     </tr>
     <tr>
       <td colspan=2><input type="checkbox" id="soulofsteel" /><label for="soulofsteel">Soul of Steel (4% phys reduction)</label></td>
     </tr>
     <tr>
-      <td><input type="number" id="endcharges" /></td>
+      <td><input type="number" id="endcharges" value=3 min=0 /></td>
       <td>endurance charges</td>
     </tr>
     <tr>
       <td colspan=2>Base trap damage:</td>
     </tr>
     <tr>
-      <td colspan=2><input type="number" id="trapdps" value="100" />% EHP per second
-                <br>as <input type="number" id="traprate" value="10" /> hits per second
+      <td><input type="number" id="trapdps" value="100" min=0 />% EHP per second</td>
+      <td>as <input type="number" id="traprate" value="10" min=0 amx=20 /> hits per second</td>
     </tr>
   </table>
 
@@ -83,18 +83,18 @@
   <table>
     <tr>
       <td>Life regenerated per second</td>
-      <td><output id="liferegenflat" /> life</td>
-      <td><output id="liferegenpercent"/> % of maximum life</td>
+      <td><output id="liferegenflat"></output> life</td>
+      <td><output id="liferegenpercent"></output> % of maximum life</td>
     </tr>
     <tr>
       <td>Energy Shield regenerated per second</td>
-      <td><output id="liferegenflat" /> ES</td>
-      <td><output id="liferegenpercent"/> % of maximum energy shield</td>
+      <td><output id="shieldregenflat"></output> ES</td>
+      <td><output id="shieldregenpercent"></output> % of maximum energy shield</td>
     </tr>
     <tr>
       <td>To facetank traps, you need:</td>
-      <td><output id="extraphysred" /> extra physiscal damage reduction</td>
-      <td>or <output id="armour" /> armour.</td>
+      <td><output id="extraphysred"></output> % extra physiscal damage reduction</td>
+      <td>or <output id="armour"></output> armour.</td>
     </tr>
   </table>
 

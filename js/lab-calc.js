@@ -3,23 +3,21 @@
 window.labcalc = {
     init: function(){
         var _inputs = [ "life", "shield", "percentregen", "scionoccultist", "zealotsoath", "shaperseed", "shavsrevel", "endregen",
-                        "vitalitylevel", "rejuvlevel", "basalt", "flaskeffect", "soulofsteel", "endcharges", "trapdps", "traprate" ],
+                        "vitalitylevel", "rejuvlevel", "basalt", "flaskeffect", "soulofsteel", "endcharges", "arctic", "trapdps" ],
             _outputs = ["liferegenflat", "liferegenpercent", "shieldregenflat", "shieldregenpercent", "extraphysred", "armour" ];
             _rejuv = [ 0, 6.3, 8.7, 12.4, 16.0, 21.0, 26.3, 32.2, 39.4, 46.1, 53.7, 61.8, 72.8, 82.7, 92.7, 102.8, 114.0,
-                       123.0, 135.6, 149.0, 162.2, 168.6, 177.0, 182.1, 191.2, 200.7, 206.0, 217.4, 227.9, 241.2, 243.7]
+                       123.0, 135.6, 149.0, 162.2, 168.6, 177.0, 182.1, 191.2, 200.7, 206.0, 217.4, 227.9, 241.2, 243.7],
+            _arctic = [ 0, 0.08, 0.08, 0.09, 0.09, 0.09, 0.09, 0.10, 0.10, 0.10, 0.10, 0.11, 0.11, 0.11, 0.11,
+                        0.12, 0.12, 0.12, 0.12, 0.13, 0.13, 0.13, 0.13, 0.14, 0.14, 0.14, 0.14, 0.15, 0.15, 0.15, 0.15 ]
         
         window.labcalc = {
             init: window.labcalc.init,
             inputs: {},
             outputs: {},
             
-            traphit: function(){
-                var hitp = +this.inputs.trapdps.value / +this.inputs.traprate.value / 100;
-                return hitp * (+this.inputs.life.value + 0.6 * +this.inputs.shield.value);
-            },
-            
-            trapdps: function(){
-                return +this.inputs.traprate.value * this.traphit();
+            trapdegen: function(){
+                var degenp = +this.inputs.trapdps.value / 100;
+                return degenp * (+this.inputs.life.value + 0.6 * +this.inputs.shield.value);
             },
             
             basereduction: function(){

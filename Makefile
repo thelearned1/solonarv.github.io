@@ -1,9 +1,13 @@
-.PHONY : compiler site-contents preview deploy
-compiler: site.hs solonarv-com.cabal stack.yaml
+.PHONY : watch site-contents preview deploy watch
+.stack-work/built: site.hs solonarv-com.cabal stack.yaml
 	stack build
+	touch .stack-work/built
 
-site-contents: compiler
+site-contents: .stack-work/built
 	stack exec site build
+
+watch: .stack-work/built
+	stack exec site watch
 
 preview: site-contents
 	stack exec site watch

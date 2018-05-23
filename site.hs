@@ -1,6 +1,10 @@
 --------------------------------------------------------------------------------
+{-# LANGUAGE LambdaCase        #-}
 {-# LANGUAGE OverloadedStrings #-}
+import           Control.Monad
 import           Data.Semigroup
+import           Text.Pandoc.Options
+
 import           Hakyll
 
 
@@ -17,16 +21,14 @@ main = hakyll $ do
 
     match (fromList ["about.md", "contact.md"]) $ do
         route   $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
-            >>= relativizeUrls
+        compile $ myPandocCompiler
+            >>= htmlFinalPipeline defaultContext
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ pandocCompiler
+        compile $ myPandocCompiler
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
-            >>= relativizeUrls
+            >>= htmlFinalPipeline postCtx
 
     create ["archive.html"] $ do
         route idRoute
@@ -39,8 +41,7 @@ main = hakyll $ do
 
             makeItem ""
                 >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-                >>= loadAndApplyTemplate "templates/default.html" archiveCtx
-                >>= relativizeUrls
+                >>= htmlFinalPipeline archiveCtx
 
 
     match "index.html" $ do
@@ -54,8 +55,7 @@ main = hakyll $ do
 
             getResourceBody
                 >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "templates/default.html" indexCtx
-                >>= relativizeUrls
+                >>= htmlFinalPipeline indexCtx
 
     match "templates/*" $ compile templateBodyCompiler
 
@@ -65,3 +65,17 @@ postCtx :: Context String
 postCtx =
     dateField "date" "%A %B %-e, %Y" <>
     defaultContext
+
+htmlFinalPipeline :: Context String -> Item String -> Compiler (Item String)
+htmlFinalPipeline ctx =
+    loadAndApplyTemplate "templates/default.html" ctx
+        >=> relativizeUrls
+
+noSmartR :: ReaderOptions -> ReaderOptions
+noSmartR opts = opts { readerExtensions = disableExtension Ext_smart $ readerExtensions opts}
+
+noSmartW :: WriterOptions -> WriterOptions
+noSmartW opts = opts { writerExtensions = disableExtension Ext_smart $ writerExtensions opts}
+
+myPandocCompiler :: Compiler (Item String)
+myPandocCompiler = pandocCompilerWith (noSmartR defaultHakyllReaderOptions) (noSmartW defaultHakyllWriterOptions)

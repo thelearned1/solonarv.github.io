@@ -2,4 +2,4 @@
 title: About
 ---
 
-About: it&apos;s not done yet.
+I write too much Haskell, play too many games, and sometimes dabble in making games. This is my blog.

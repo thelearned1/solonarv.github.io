@@ -98,3 +98,9 @@ their unicode equivalents. I removed my hodgepodge of multi-pass find-replace, a
 and I don't even have to backslash-escape anything anymore.
 
 I have not filed a bug report, as I'm not yet convinced that I'm not simply doing something massively stupid.
+
+It is now a day later, and I found [this](https://jaspervdj.be/hakyll/tutorials/faq.html#hgetcontents-invalid-argument-or-commitbuffer-invalid-argument)
+in the hakyll FAQ: It seems that I need to explicitly set the character encoding to UTF-8. That seems to have fixed it.
+
+The next step is to massage hakyll into building two output pages out of a single input, so I can have each post automatically link to its source.
+But I'll do that another time.

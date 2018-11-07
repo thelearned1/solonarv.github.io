@@ -49,3 +49,8 @@ $ git add --all
 $ git commit
 $ git push
 ```
+
+Augh! Travis is installing cabal and trying to compile with that! That's definitely not what
+I want. Fortunately, a quick search turns up [the `stack` docs](https://docs.haskellstack.org/en/stable/travis_ci/), which provide a ready-made `.travis.yml`.
+It's fairly large, so I won't be including it. Let's try again:
+

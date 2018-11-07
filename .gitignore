@@ -1,7 +1,0 @@
-# Haskell stuff
-.stack-work
-
-# Hakyll output
-_cache
-_site
-watchpid

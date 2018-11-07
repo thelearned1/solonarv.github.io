@@ -37,9 +37,8 @@ deploy:
   keep-history: true
   committer-from-gh: true
   local-dir: _site
-  on:
-    repo: Solonarv/solonarv.github.io
-    target-branch: master
+  repo: Solonarv/solonarv.github.io
+  target-branch: master
 ```
 
 This is still fairly straightforward, in my opinion. Let's see if it works:
@@ -52,5 +51,12 @@ $ git push
 
 Augh! Travis is installing cabal and trying to compile with that! That's definitely not what
 I want. Fortunately, a quick search turns up [the `stack` docs](https://docs.haskellstack.org/en/stable/travis_ci/), which provide a ready-made `.travis.yml`.
-It's fairly large, so I won't be including it. Let's try again:
+It's fairly large, so I won't be including it. Let's try again.
 
+This first build takes a while (nearly 40 minutes, in fact!), since `stack` and hakyll's dependencies need to be set up first; but future builds will be faster, because Travis can
+cache the results of that work.
+
+Now that I've got a successful build, it's time to get the deployment working. `$GITHUB_TOKEN`
+needs to be set to an appropriately-scoped GitHub Personal Access Token, which is easy to set up.
+
+A few minutes later, and... it's done! That was much easier than I expected it to be. All that's left is to push the latest version of this very blog post.

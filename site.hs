@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+import           Control.Monad
 import           Data.Semigroup
 import           Data.Traversable
 import           Data.Foldable
@@ -14,15 +15,13 @@ main = do
     match "*.md" $ do
       route   $ setExtension "html"
       compile $ pandocCompiler
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
-        >>= relativizeUrls
+        >>= finalizeHtml defaultContext
   
     match "posts/*" $ do
       route $ setExtension "html"
       compile $ pandocCompiler
         >>= loadAndApplyTemplate "templates/post.html"  postCtx
-        >>= loadAndApplyTemplate "templates/default.html" postCtx
-        >>= relativizeUrls
+        >>= finalizeHtml postCtx
   
     create ["archive.html"] $ do
       route idRoute
@@ -36,8 +35,7 @@ main = do
   
         makeItem ""
           >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-          >>= loadAndApplyTemplate "templates/default.html" archiveCtx
-          >>= relativizeUrls
+          >>= finalizeHtml archiveCtx
   
   
     match "index.html" $ do
@@ -52,14 +50,12 @@ main = do
   
         getResourceBody
           >>= applyAsTemplate indexCtx
-          >>= loadAndApplyTemplate "templates/default.html" indexCtx
-          >>= relativizeUrls
+          >>= finalizeHtml indexCtx
   
     
-    ["images/*", "js/*", "*.html"] `for_` \s ->
-      match s $ do
-        route   idRoute
-        compile copyFileCompiler
+    match ("images/*" .||. "js/*" .||. "*.html") $ do
+      route   idRoute
+      compile copyFileCompiler
 
     match "css/*" $ do
       route   idRoute
@@ -71,6 +67,10 @@ main = do
 --------------------------------------------------------------------------------
 postCtx :: Context String
 postCtx =
-  dateField "date" "%B %e, %Y" <>
+  dateField "date" "%A %B %-e, %Y" <>
   defaultContext
-  
+
+finalizeHtml :: Context String -> Item String -> Compiler (Item String)
+finalizeHtml ctx =
+  loadAndApplyTemplate "templates/default.html" ctx
+    >=> relativizeUrls

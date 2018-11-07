@@ -1,0 +1,14 @@
+language: haskell
+
+script: stack build --fast && stack exec -- site build
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  committer-from-gh: true
+  local-dir: _site
+  on:
+    repo: Solonarv/solonarv.github.io
+    target-branch: master

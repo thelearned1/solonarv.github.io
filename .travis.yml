@@ -48,6 +48,5 @@ deploy:
   keep-history: true
   committer-from-gh: true
   local-dir: _site
-  on:
-    repo: Solonarv/solonarv.github.io
-    target-branch: master
+  repo: Solonarv/solonarv.github.io
+  target-branch: master

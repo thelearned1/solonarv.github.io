@@ -1,5 +1,3 @@
-This branch holds the "back end" of my blog. The generated
-(static) site can be found on the `master` branch.
-
-There is a Travis CI setup which automatically re-builds the site
-and pushes the updated files to the `master` branch.
+The source code for my blog, found at <https://solonarv.github.io>.
+The Travis setup compiles and runs `./site.hs`, and pushes the
+resulting static site to [Solonarv/solonarv.github.io](https://github.com/Solonarv/solonarv.github.io).

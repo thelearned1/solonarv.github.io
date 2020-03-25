@@ -1,31 +1,32 @@
+{-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE OverloadedStrings #-}
 import           Control.Monad
 import           Data.Semigroup
 import           Data.Traversable
 import           Data.Foldable
-import           GHC.IO.Encoding as IO.Encoding
+import           GHC.IO.Encoding (setLocaleEncoding, utf8)
 import           Hakyll
 
 
 main :: IO ()
 main = do
-  IO.Encoding.setLocaleEncoding IO.Encoding.utf8
-  hakyll $ do
+  setLocaleEncoding utf8
+  hakyll do
   
-    match "*.md" $ do
+    match "*.md" do
       route   $ setExtension "html"
       compile $ pandocCompiler
         >>= finalizeHtml defaultContext
   
-    match "posts/*" $ do
+    match "posts/*" do
       route $ setExtension "html"
       compile $ pandocCompiler
         >>= loadAndApplyTemplate "templates/post.html"  postCtx
         >>= finalizeHtml postCtx
   
-    create ["archive.html"] $ do
+    create ["archive.html"] do
       route idRoute
-      compile $ do
+      compile do
         posts <- recentFirst =<< loadAll "posts/*"
         let
           archiveCtx =
@@ -38,9 +39,9 @@ main = do
           >>= finalizeHtml archiveCtx
   
   
-    match "index.html" $ do
+    match "index.html" do
       route idRoute
-      compile $ do
+      compile do
         posts <- recentFirst =<< loadAll "posts/*"
         let
           indexCtx =
@@ -53,11 +54,11 @@ main = do
           >>= finalizeHtml indexCtx
   
     
-    match ("images/*" .||. "js/*" .||. "*.html") $ do
+    match ("images/*" .||. "js/*" .||. "*.html") do
       route   idRoute
       compile copyFileCompiler
 
-    match "css/*" $ do
+    match "css/*" do
       route   idRoute
       compile compressCssCompiler
 

@@ -1,12 +1,18 @@
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE OverloadedStrings #-}
-import           Control.Monad
-import           Data.Semigroup
-import           Data.Traversable
-import           Data.Foldable
-import           GHC.IO.Encoding (setLocaleEncoding, utf8)
-import           Hakyll
+import Control.Monad
+import Data.Char
+import Data.Foldable
+import Data.List
+import Data.Maybe
+import Data.Semigroup
+import Data.Traversable
+import GHC.IO.Encoding (setLocaleEncoding, utf8)
 
+import Data.Map (Map)
+import qualified Data.Map.Strict as Map
+
+import Hakyll
 
 main :: IO ()
 main = do
@@ -16,13 +22,13 @@ main = do
     match "*.md" do
       route   $ setExtension "html"
       compile $ pandocCompiler
-        >>= finalizeHtml defaultContext
+        >>= finalizeHtml datedCtx
   
     match "posts/*" do
       route $ setExtension "html"
       compile $ pandocCompiler
-        >>= loadAndApplyTemplate "templates/post.html"  postCtx
-        >>= finalizeHtml postCtx
+        >>= loadAndApplyTemplate "templates/post.html"  datedCtx
+        >>= finalizeHtml datedCtx
   
     create ["archive.html"] do
       route idRoute
@@ -30,7 +36,7 @@ main = do
         posts <- recentFirst =<< loadAll "posts/*"
         let
           archiveCtx =
-            listField "posts" postCtx (return posts) <>
+            listField "posts" datedCtx (return posts) <>
             constField "title" "Archives"      <>
             defaultContext
   
@@ -45,7 +51,7 @@ main = do
         posts <- recentFirst =<< loadAll "posts/*"
         let
           indexCtx =
-            listField "posts" postCtx (return posts) <>
+            listField "posts" datedCtx (return posts) <>
             constField "title" "Home"        <>
             defaultContext
   
@@ -53,6 +59,32 @@ main = do
           >>= applyAsTemplate indexCtx
           >>= finalizeHtml indexCtx
   
+    match "homebrew/**/*.md" do
+      route $ setExtension "html"
+      compile do
+        metadata <- getMetadata =<< getUnderlying
+        let system = fold $ lookupString "brew-system" metadata
+            license = fold $ lookupString "brew-license" metadata
+            string = systemLicenseString system license
+            brewCtx = constField "systemandlicense" string <> datedCtx
+
+        pandocCompiler
+          >>= loadAndApplyTemplate "templates/homebrew.html" brewCtx
+          >>= finalizeHtml brewCtx
+    
+    match "homebrew/index.html" do
+      route $ setExtension "html"
+      compile do
+        indexes <- loadAll "homebrew/**/index.md"
+        let ctx = mconcat
+              [ listField "posts" datedCtx (return indexes)
+              , constField "title" "Homebrew Material Index"
+              , defaultContext
+              ]
+
+        getResourceBody
+          >>= applyAsTemplate ctx
+          >>= finalizeHtml ctx
     
     match ("images/*" .||. "js/*" .||. "*.html") do
       route   idRoute
@@ -66,12 +98,41 @@ main = do
   
   
 --------------------------------------------------------------------------------
-postCtx :: Context String
-postCtx =
-  dateField "date" "%A %B %-e, %Y" <>
-  defaultContext
 
 finalizeHtml :: Context String -> Item String -> Compiler (Item String)
 finalizeHtml ctx =
   loadAndApplyTemplate "templates/default.html" ctx
     >=> relativizeUrls
+
+datedCtx :: Context String
+datedCtx =
+  dateField "date" "%A %B %-e, %Y" <>
+  defaultContext
+
+systemLicenseString :: String -> String -> String
+systemLicenseString system license = let
+  systemId = toLower <$> system
+  systemName = fromMaybe system $ Map.lookup systemId knownSystems
+  
+  defaultLicense = if "dnd" `isPrefixOf` systemId
+    then "under the Open Game License"
+    else "with All Rights Reserved"
+  licenseId = toLower <$> license
+  licenseName = if null license
+    then defaultLicense
+    else "under " ++ (fromMaybe license $ Map.lookup licenseId knownLicenses)
+  in unwords ["Content for the", systemName, "system; released", licenseName]
+
+knownSystems :: Map String String
+knownSystems = Map.fromList
+  [ "dnd5e" .= "Dungeons & Dragons 5e"
+  , "fate" .= "FATE"
+  ]
+  where (.=) = (,)
+
+knownLicenses :: Map String String
+knownLicenses = Map.fromList
+  [ "ogl" .= "the Open Game License"
+  , "cc" .= "CreativeCommons-Atrribution-ShareAlike (CC-BY-SA)"
+  ]
+  where (.=) = (,)

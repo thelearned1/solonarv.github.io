@@ -26,3 +26,8 @@ forum quest.
 
 Water mages have access to a pocket dimension which can store only pure water. They can form portals
 near the surface of their skin, through which they can eject or absorb water.
+
+### [Library magic](library-magic.html)
+
+Library mages form bonds to libraries and their genius loci, allowing them access
+to various magical effects while in the library.

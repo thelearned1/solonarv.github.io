@@ -4,10 +4,12 @@ brew-system: fate
 brew-license: ogl
 ---
 
-## Associated skills
+## Skills
 
-Skill levels for Water Magic skills lower than your highest Water Magic skill
-cost 50% less XP.
+### Half-cost discount
+
+Purchasing a level in a Water Magic skill costs 50% less XP if the new level is
+less than your highest Water Magic skill level.
 
 ### Water Storage
 
@@ -34,7 +36,7 @@ create, move, and alter their water portals. Also determines the number of
 portals that can be active at once. The maximum number of active portals is
 `1 + WaterPortalMastery / 10`, rounded down.
 
-## Associated actions
+## Actions
 
 ### Manipulate Water Portal
 
@@ -47,7 +49,7 @@ Create, move or alter a water portal on your skin.
 You use an existing water portal to shoot a blast of water. Uses 1 l of water
 from your reservoir.
 
-## Associated stunts
+## Stunts
 
 ### Lingering Portals
 

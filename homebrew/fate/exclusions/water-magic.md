@@ -53,8 +53,8 @@ from your reservoir.
 
 ### Lingering Portals
 
-Prerequisite: Water Portal Mastery 20
-Cost: 100 XP
+ - Prerequisite: Water Portal Mastery 20
+ - Cost: 100 XP
 
 You can slide a water portal from your skin onto a surface you touch.
 The portal attaches to that surface and remains active. It lasts for
@@ -64,8 +64,8 @@ unless you are touching it. Touching the portal renews its duration.
 
 ### Flexible Portals
 
-Prerequisite: Water Portal Mastery 20
-Cost: 50 XP
+ - Prerequisite: Water Portal Mastery 20
+ - Cost: 50 XP
 
 Your water portals can exist at a distance of up to `WaterPortalMastery / 10` cm
 from your skin, can be at any angle to your skin, and can be simple curved surfaces

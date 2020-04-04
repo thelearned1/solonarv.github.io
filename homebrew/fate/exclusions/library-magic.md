@@ -49,8 +49,8 @@ magical processes confusingly called rituals (no relation to [ritual magic](ritu
 
 ### Entering the Library
 
-Duration: 10 minutes to several hours
-Requirements: Must be performed inside the library. Genius loci must approve.
+ - Duration: 10 minutes to several hours
+ - Requirements: Must be performed inside the library. Genius loci must approve.
 
 You bond with a library and its genius loci, allowing you to use its magic.
 If you are already bonded, you strengthen your bond, allowing you greater
@@ -63,8 +63,8 @@ the previous level of Library Bond as well as the amount of levels added.
 
 ### Severing the Bond
 
-Duration: 5 minutes
-Requirements: Must be performed inside the library.
+ - Duration: 5 minutes
+ - Requirements: Must be performed inside the library.
 
 You sever your bond with a library and its genius loci.
 You lose all levels of your Library Bond skill for this library.
@@ -74,18 +74,30 @@ XP spent. If you part on bad or hostile terms, you regain only half.
 
 ### Expanding the Collection
 
-Duration: variable
-Requirements: Must be performed inside the library.
+ - Duration: variable
+ - Requirements: Must be performed inside the library.
 
 You add one or more works (books, art, music, ...) to the library's
 collection. Storing the works in their proper place is part of the ritual,
 as is explaining their content and the purpose of the addition to the
 genius loci.
 
+### Culling the Collection
+
+ - Duration: variable
+ - Requirements: Must be performed inside the library.
+
+You remove one or more works (books, art, music, ...) from the library's
+collection. This is not a loan: after the ritual is complete, these works
+are no longer part of the library's collection. The ritual involves
+explaining your removals to the genius loci, retrieving the works from
+their current location, and then bringing them physically outside the
+library.
+
 ### Altering the Premises
 
-Duration: variable
-Requirements: Must be performed inside or just outside the library. Building materials may be needed.
+ - Duration: variable
+ - Requirements: Must be performed inside or just outside the library. Building materials may be needed.
 
 You expand, shrink, or otherwise remodel the building the library sits in.
 This ritual includes changes both to the outer boundaries and the interior,

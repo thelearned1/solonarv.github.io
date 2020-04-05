@@ -31,3 +31,8 @@ near the surface of their skin, through which they can eject or absorb water.
 
 Library mages form bonds to libraries and their genius loci, allowing them access
 to various magical effects while in the library.
+
+### [Blood magic](blood-magic.html)
+
+Blood mages attune to the rhythm of their heartbeat and telekinetically control their blood.
+They are formidable foes in combat and very hard to bring down.

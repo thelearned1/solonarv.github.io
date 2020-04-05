@@ -36,3 +36,7 @@ to various magical effects while in the library.
 
 Blood mages attune to the rhythm of their heartbeat and telekinetically control their blood.
 They are formidable foes in combat and very hard to bring down.
+
+### [Illusion magic](illusion-magic.html)
+
+Illusion mages create illusions that engulf all senses and are very hard to break out of.

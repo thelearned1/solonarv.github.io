@@ -9,7 +9,9 @@ brew-license: ogl
 *Exclusions* is a setting (or rather a setting template) filled with a great variety
 of magic systems. Crunch is provided using a variant of the FATE rules.
 
-## Differences from FATE
+The rules are detailed in [Concepts](concepts.html).
+
+### Differences from FATE
 
 Much of these are cribbed from the [Fated to Die](https://docs.google.com/document/d/1JdE1lGoRnzj4HIuzlYdDq18FTYZ5s-Qxa1Mt0NR_cQM/edit#heading=h.u2c080bpff7f)
 system, which is used by the [Marked for Death](https://forums.sufficientvelocity.com/threads/marked-for-death-a-rational-naruto-quest.24481/)
@@ -40,3 +42,7 @@ They are formidable foes in combat and very hard to bring down.
 ### [Illusion magic](illusion-magic.html)
 
 Illusion mages create illusions that engulf all senses and are very hard to break out of.
+
+### [Ink magic](ink-magic.html)
+
+Ink mages research and draw patterns in magical ink that can create a great variety of effects.

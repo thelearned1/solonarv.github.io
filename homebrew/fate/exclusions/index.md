@@ -46,3 +46,9 @@ Illusion mages create illusions that engulf all senses and are very hard to brea
 ### [Ink magic](ink-magic.html)
 
 Ink mages research and draw patterns in magical ink that can create a great variety of effects.
+
+### [Blade magic](blade-magic.html)]
+
+Blade-savants use their willpower to mystically amplify any cutting edge, allowing them to Cut
+nearly anything - not only physical objects (mundane or magical), but also abstract things such
+as time, space, lies, or justice. Nothing stands in the way of a master blade-savant.

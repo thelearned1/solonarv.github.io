@@ -47,8 +47,15 @@ Illusion mages create illusions that engulf all senses and are very hard to brea
 
 Ink mages research and draw patterns in magical ink that can create a great variety of effects.
 
-### [Blade magic](blade-magic.html)]
+### [Blade magic](blade-magic.html)
 
 Blade-savants use their willpower to mystically amplify any cutting edge, allowing them to Cut
 nearly anything - not only physical objects (mundane or magical), but also abstract things such
 as time, space, lies, or justice. Nothing stands in the way of a master blade-savant.
+
+### [Ice magic](ice-magic.html)
+
+Ice mages exploit an Ice Entity, an ancient imprisoned evil that desires a frozen death
+for the entire universe. Wisps of an Ice Entity's power and consciousness leak out of its
+prison. Ice mages draw on these wisps. By sacrificing their own body heat, they draw an
+Ice Entity's diffuse attention to a nearby location, sapping an equal amount of heat from there.

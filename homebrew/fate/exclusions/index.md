@@ -59,3 +59,10 @@ Ice mages exploit an Ice Entity, an ancient imprisoned evil that desires a froze
 for the entire universe. Wisps of an Ice Entity's power and consciousness leak out of its
 prison. Ice mages draw on these wisps. By sacrificing their own body heat, they draw an
 Ice Entity's diffuse attention to a nearby location, sapping an equal amount of heat from there.
+
+### [Fold magic](fold-magic.html)
+
+Fold mages crease, bend, and fold the fabric of the universe, allowing them to reshape
+space in ways both baffling and mundane. They are limited only by their skills and the
+inadequacy of their mind, as mortal brains are not made for gazing at spacetime from the
+outside.

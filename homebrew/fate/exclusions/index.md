@@ -66,3 +66,10 @@ Fold mages crease, bend, and fold the fabric of the universe, allowing them to r
 space in ways both baffling and mundane. They are limited only by their skills and the
 inadequacy of their mind, as mortal brains are not made for gazing at spacetime from the
 outside.
+
+### [Translation magic](translation-magic.html)
+
+Translation magic allows its users to understand information recorded
+in any language and nearly any format, as well as communicate in nearly
+any mode. They are even able to understand and speak the language of
+creation, allowing them to manipulate the script that underlies all reality.

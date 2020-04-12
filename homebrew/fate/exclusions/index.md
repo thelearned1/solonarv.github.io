@@ -73,3 +73,9 @@ Translation magic allows its users to understand information recorded
 in any language and nearly any format, as well as communicate in nearly
 any mode. They are even able to understand and speak the language of
 creation, allowing them to manipulate the script that underlies all reality.
+
+### [Glass magic](glass-magic.html)
+
+Glass mages telekinetically control vitreous-phase matter (e.g. ordinary glass, obsidian,
+some forms of ice). They can also force some materials to transition into vitreous phase
+that wouldn't otherwise.

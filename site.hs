@@ -86,6 +86,11 @@ main = do
           >>= applyAsTemplate ctx
           >>= finalizeHtml ctx
     
+    match "misc/*.html" do
+      route idRoute
+      compile $ getResourceBody
+        >>= finalizeHtml datedCtx
+
     match ("images/*" .||. "js/*" .||. "*.html") do
       route   idRoute
       compile copyFileCompiler

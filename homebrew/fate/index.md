@@ -18,3 +18,9 @@ to embody their ideals.
 
 From the Underworld, six demon princes also empower mortals to further their dark
 agendas and funnel more mortal slaves back to their masters.
+
+## [The Wandering Isles](wandering-isles/index.html)
+
+A stormy, ocean-covered super-Earth with extreme tides and lighter-than-air wooden islands floating above the clouds.
+
+Born from an attempt to justify the "landmasses floating in the sky" trope without resorting to handwavium.

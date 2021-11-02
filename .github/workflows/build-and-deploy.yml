@@ -43,10 +43,10 @@ jobs:
     - name: Generate static site
       run: cabal run site build
     - name: Deploy to GH pages
-      uses: crazy-max/ghaction-github-pages@v1
+      uses: crazy-max/ghaction-github-pages@v2
       with:
         target_branch: master
         commit_message: Deploy ${{ github.sha }}
         build_dir: _site
       env:
-        GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+        GH_PAT: ${{ secrets.GITHUB_PAT }}

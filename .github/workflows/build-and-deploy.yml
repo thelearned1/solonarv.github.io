@@ -36,10 +36,10 @@ jobs:
     - name: Install dependencies
       run: |
         cabal update
-        cabal install --only-dependencies
+        cabal install --only-dependencies --overwrite-policy=always
     - name: Build generator
       run: |
-        cabal build site
+        cabal build site --overwrite-policy=always
     - name: Generate static site
       run: cabal run site build
     - name: Deploy to GH pages

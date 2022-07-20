@@ -39,7 +39,7 @@ jobs:
         cabal install --only-dependencies --overwrite-policy=always
     - name: Build generator
       run: |
-        cabal build site --overwrite-policy=always
+        cabal build site
     - name: Generate static site
       run: cabal run site build
     - name: Deploy to GH pages

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A bunch of random dots</title>
+    <link rel="stylesheet" href="css/default.css" />
+    <script type="text/javascript">
+        function randomDots() {
+            let can = document.getElementById("random-dots");
+            let ctx = can.getContext('2d');
+
+            ctx.fillStyle = 'rgba(255,255,255,1)';
+            ctx.fillRect(0,0,320,240);
+
+            ctx.fillStyle = 'rgba(0,0,0,1)';
+            for (var i = 0; i < 200; i++) {
+                let x = Math.random() * 319;
+                let y = Math.random() * 239;
+                ctx.fillRect(x,y,2,2);
+            }
+        }
+    </script>
+  </head>
+<body>
+    <canvas id="random-dots" width="320" height="240" style="border: 1px solid black;"></canvas>
+    <button type="button" onclick="randomDots()">Create dots</button>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Solonarv's Blog - Making a blog with Hakyll</title>
+        <link rel="stylesheet" href="../css/default.css" />
+        <link rel="stylesheet" href="../css/syntax.css" />
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="../">Solonarv's Blog</a>
+            </div>
+            <nav>
+                <a href="../">Home</a>
+                <a href="../homebrew/">Homebrew</a>
+                <a href="../randomthings.html">Random Things</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+                <a href="../archive.html">Archive</a>
+            </nav>
+        </header>
+
+        <main role="main">
+            <h1>Making a blog with Hakyll</h1>
+            <article>
+    <section class="header">
+        Posted on Tuesday May 22, 2018
+        
+    </section>
+    <section>
+        <p>I’ve long wanted a personal website, for a variety of reasons - a portfolio of my few actually completed projects, the challenge of setting it up, and to have somewhere to put the occasional blog post. It also seems right to own the domain name associated with my (globally unique, as far as I’m aware) username, and what use is owning a domain name without something to put behind it? And what good is a website with nothing on it?</p>
+<p>I’m a big fan of Haskell, and I have a strong preference for static websites that don’t require several megabytes of JS just to be readable. This made <a href="http://jaspervdj.be/hakyll">Hakyll</a> a natural choice for me. There were a few hoops to jump through, however.</p>
+<p>First, annoyingly, was the install process. I use <code>stack</code> for all my haskell needs, which is also the recommended way to install hakyll.</p>
+<pre><code>$ stack install hakyll --resolver lts-11.10</code></pre>
+<p>This seemed to work fine, right until the very end (compiling hakyll itself, after its many dependencies are done). The build failed with an obscure error, reproduced below:</p>
+<pre><code>[48 of 53] Compiling Hakyll.Web.Feed  ( lib\Hakyll\Web\Feed.hs, .stack-work\dist\5c8418a7\build\Hakyll\Web\Feed.o )
+Access violation in generated code when executing data at 0000000103644510</code></pre>
+<p>I was rather baffled. I tried again a few times, and googled a few combinations of “hakyll”, “stack”, “access violation” etc.; to no avail. Eventually I had the bright idea to use stackage nightly instead; maybe that error was a bug that’d gotten fixed by now?</p>
+<pre><code>$ stack install hakyll --resolver nightly-2018-05-21</code></pre>
+<p>An eternity later, I had <code>hakyll</code> installed.</p>
+<pre><code>$ hakyll-init solonarv.com
+$ cd solonarv.com</code></pre>
+<p>I saw a cabal file (nice!), but a conspicuous lack of <code>stack.yaml</code>. Eh, easily fixed - <code>stack init</code>, and edit the resulting file to use the same <code>nightly-2018-05-21</code> resolver that I’d built with. Now let’s see if this works.</p>
+<pre><code>$ stack build
+$ stack exec site watch
+$ # navigate to localhost:8000</code></pre>
+<p>Hey, it worked! By then it was getting rather late, so I went to bed. The next day, I came back and set about turning this heap of Lorem Ipsum into my own blog; starting with deleting all the existing example posts and stubbing about/contact/index pages.</p>
+<p>Since a blog without any posts is rather pointless, I pondered for a bit and then started writing this very post.</p>
+<p>After writing the first paragraph, I was greeted with another vague error message complaining about an “invalid character”. It took some head-scratching and a few fruitless google search queries before I noticed that the generated HTML ended right after the “I” in the first paragraph - in other words, right before the <code>'</code>. Maybe that was the invalid character? Sure enough, replacing it with the corresponding HTML entity <code>'</code> fixed it. But the English language uses rather a lot of apostrophes, and typing <code>'</code> all over the place will get old quickly.</p>
+<p>Fortunately, Hakyll’s “configuration file” is actually just a haskell file, which means I can knead data before passing it to pandoc. I didn’t even have to do very much; simply replace the default</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>compile <span class="op">$</span> pandocCompiler</span></code></pre></div>
+<p>with <code>compile $ escapedPandocCompiler</code>, and write <code>escapedPandocCompiler</code> as a wrapper around <code>pandocCompiler</code> that first replaces reserved HTML characters (<code>&lt;&gt;'"&amp;</code>) with their corresponding HTML entities. Conveniently enough, hakyll provides a function to perform string replacements. I ended up with something like this:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ot">escapeReservedChars ::</span> <span class="dt">Item</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Compiler</span> (<span class="dt">Item</span> <span class="dt">String</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>escapeReservedChars <span class="ot">=</span> <span class="fu">pure</span> <span class="op">.</span> <span class="fu">fmap</span> go</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>    <span class="kw">where</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>        go <span class="ot">=</span> replaceAll <span class="st">&quot;\\\\?[&lt;&gt;&amp;'\&quot;\\\\]&quot;</span> <span class="op">$</span> \<span class="kw">case</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>            <span class="st">&quot;&lt;&quot;</span> <span class="ot">-&gt;</span> <span class="st">&quot;&amp;lt;&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>            <span class="st">&quot;&gt;&quot;</span> <span class="ot">-&gt;</span> <span class="st">&quot;&amp;gt;&quot;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>            <span class="st">&quot;&amp;&quot;</span> <span class="ot">-&gt;</span> <span class="st">&quot;&amp;amp;&quot;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>            <span class="st">&quot;'&quot;</span> <span class="ot">-&gt;</span> <span class="st">&quot;'&quot;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>            <span class="st">&quot;\&quot;&quot;</span> <span class="ot">-&gt;</span> <span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a><span class="st">            '\\' : s -&gt; s</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a><span class="st">            s -&gt; s</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a><span class="st">escapedPandocCompiler :: Compiler (Item String)</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a><span class="st">escapedPandocCompiler = getResourceBody &gt;&gt;= escapeReservedChars &gt;&gt;= renderPandoc</span></span></code></pre></div>
+<p>This worked perfectly: hakyll was no longer throwing up on apostrophes! On with the writing!</p>
+<p>But it wasn’t so simple… I soon found that double-quotes were still causing trouble, even though I was escaping them! But <em>only</em> if there were two or more in the same paragraph.</p>
+<p>I decided to replace double-quotes with <code>-q-</code> in the source file for this post. Somehow I was still getting errors. This didn’t stop when I changed <code>site.hs</code> and this post even more, so that there were no double-quotes anywhere: not in the source, not in the intermediate string that’s passed to pandoc, and not in the output.</p>
+<p>I was still having issues.</p>
+<p>I backslash-escaped every single apostrophe and quote in this post, and it actually worked! Until hakyll reached the ellipsis three paragraphs above this one.</p>
+<p>This reminded me of something: one of pandoc’s many, many extensions is called <code>smart</code>, and it turns ASCII quotes, ellipses and the like into their unicode equivalents. I removed my hodgepodge of multi-pass find-replace, and turned off that extension - lo and behold, it works perfectly, and I don’t even have to backslash-escape anything anymore.</p>
+<p>I have not filed a bug report, as I’m not yet convinced that I’m not simply doing something massively stupid.</p>
+<p>It is now a day later, and I found <a href="https://jaspervdj.be/hakyll/tutorials/faq.html#hgetcontents-invalid-argument-or-commitbuffer-invalid-argument">this</a> in the hakyll FAQ: It seems that I need to explicitly set the character encoding to UTF-8. That seems to have fixed it.</p>
+<p>The next step is to massage hakyll into building two output pages out of a single input, so I can have each post automatically link to its source. But I’ll do that another time.</p>
+    </section>
+</article>
+
+        </main>
+
+        <footer>
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+            Found an issue?
+            <a href="https://github.com/Solonarv/solonarv.github.io/issues" target="_blank">
+                Report it!
+            </a> 
+        </footer>
+    </body>
+</html>

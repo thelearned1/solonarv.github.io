@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Multiclass Spell Slot Calculator</title>
+        <link rel="stylesheet" href="css/default.css" />
+        <meta charset="utf-8">
+
+        <style type="text/css">
+            td, tr {
+                text-align: center;
+            }
+
+            #level-inputs input {
+                width: 5em;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Multiclass Spell Slots Calculator</h1>
+        <p>This calculator will tell you how many spell slots you have of each level, 
+            according to the multiclassing rules in Chapter 5 of the PHB.</p>
+        <h3>Class Levels</h3>
+        <p>To use the calculator,
+            simply enter your level in each spellcasting class into the table below.</p>
+        <table id="level-inputs">
+            <tbody>
+                <tr>
+                    <th>Artificer</th>
+                    <th>Bard</th>
+                    <th>Cleric</th>
+                    <th>Druid</th>
+                    <th>Fighter (EK)</th>
+                    <th>Paladin</th>
+                    <th>Ranger</th>
+                    <th>Rogue (AT)</th>
+                    <th>Sorcerer</th>
+                    <th>Wizard</th>
+                </tr>
+                <tr>
+                    <td><input class="level-input half-up" type="number" value="0"></td>
+                    <td><input class="level-input full" type="number" value="0"></td>
+                    <td><input class="level-input full" type="number" value="0"></td>
+                    <td><input class="level-input full" type="number" value="0"></td>
+                    <td><input class="level-input third" type="number" value="0"></td>
+                    <td><input class="level-input half" type="number" value="0"></td>
+                    <td><input class="level-input half" type="number" value="0"></td>
+                    <td><input class="level-input third" type="number" value="0"></td>
+                    <td><input class="level-input full" type="number" value="0"></td>
+                    <td><input class="level-input full" type="number" value="0"></td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Spell Slots</h3>
+        <p>With the above level spread, these are your spell slots of each level:</p>
+        <table id="spell-slots">
+            <tbody>
+                <tr>
+                    <th>1st</th>
+                    <th>2nd</th>
+                    <th>3rd</th>
+                    <th>4th</th>
+                    <th>5th</th>
+                    <th>6th</th>
+                    <th>7th</th>
+                    <th>8th</th>
+                    <th>9th</th>
+                </tr>
+                <tr>
+                    <td><span id="sl-1">—</span></td>
+                    <td><span id="sl-2">—</span></td>
+                    <td><span id="sl-3">—</span></td>
+                    <td><span id="sl-4">—</span></td>
+                    <td><span id="sl-5">—</span></td>
+                    <td><span id="sl-6">—</span></td>
+                    <td><span id="sl-7">—</span></td>
+                    <td><span id="sl-8">—</span></td>
+                    <td><span id="sl-9">—</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <footer>
+            <p>This calculator is unofficial Fan Content permitted under the Fan Content Policy.
+                Not approved/endorsed by Wizards. Portions of the materials used are property of
+                Wizards of the Coast. ©Wizards of the Coast LLC.</p>
+        </footer>
+        <script type="text/javascript">
+            // <!--
+                const slotsByLevel = {
+                    0:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    1:  [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+                    2:  [0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+                    3:  [0, 4, 2, 0, 0, 0, 0, 0, 0, 0],
+                    4:  [0, 4, 3, 0, 0, 0, 0, 0, 0, 0],
+                    5:  [0, 4, 3, 2, 0, 0, 0, 0, 0, 0],
+                    6:  [0, 4, 3, 3, 0, 0, 0, 0, 0, 0],
+                    7:  [0, 4, 3, 3, 1, 0, 0, 0, 0, 0],
+                    8:  [0, 4, 3, 3, 2, 0, 0, 0, 0, 0],
+                    9:  [0, 4, 3, 3, 3, 1, 0, 0, 0, 0],
+                    10: [0, 4, 3, 3, 3, 2, 0, 0, 0, 0],
+                    11: [0, 4, 3, 3, 3, 2, 1, 0, 0, 0],
+                    12: [0, 4, 3, 3, 3, 2, 1, 0, 0, 0],
+                    13: [0, 4, 3, 3, 3, 2, 1, 1, 0, 0],
+                    14: [0, 4, 3, 3, 3, 2, 1, 1, 0, 0],
+                    15: [0, 4, 3, 3, 3, 2, 1, 1, 1, 0],
+                    16: [0, 4, 3, 3, 3, 2, 1, 1, 1, 0],
+                    17: [0, 4, 3, 3, 3, 2, 1, 1, 1, 1],
+                    18: [0, 4, 3, 3, 3, 3, 1, 1, 1, 1],
+                    19: [0, 4, 3, 3, 3, 3, 2, 1, 1, 1],
+                    20: [0, 4, 3, 3, 3, 3, 2, 2, 1, 1],
+                };
+                
+                const inputs = document.getElementsByClassName("level-input")
+
+                const recalculate = () => {
+                    let totalCasterLevel = 0;
+                    for (let inp of inputs) {
+                        let val = parseInt(inp.value);
+                        let classList = inp.classList;
+
+                        if (inp.classList.contains("full")) {
+                            totalCasterLevel += val;
+                        } else if (inp.classList.contains("half")) {
+                            totalCasterLevel += val >= 2 ? Math.floor(val / 2) : 0;
+                        } else if (classList.contains("third")) {
+                            totalCasterLevel += val >= 3 ? Math.floor(val / 3) : 0;
+                        } else if (classList.contains("half-up")) {
+                            totalCasterLevel += Math.ceil(val / 2);
+                        }
+                    }
+
+                    let slots = slotsByLevel[totalCasterLevel];
+                    for (let sl = 1; sl <= 9; sl++) {
+                        let id = "sl-"+sl;
+                        let el = document.getElementById(id);
+                        let nSlots = slots[sl];
+                        
+                        el.innerText = nSlots > 0 ? nSlots : "—";
+                    }
+                }
+
+                for (let inp of inputs) {
+                    inp.addEventListener('input', recalculate)
+                }
+
+                recalculate();
+            // -->
+        </script>
+    </body>
+</html>

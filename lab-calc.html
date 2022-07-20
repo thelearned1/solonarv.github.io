@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Labyrinth Facetank Calculator</title>
+    <link rel="stylesheet" href="css/default.css" />
+    <script type="text/javascript" src="js/lab-calc.js"></script>
+</head>
+<body onload="window.labcalc.init()" >
+
+<h1>Labyrinth Facetank Calculator</h1>
+
+<form onchange="window.labcalc.update()">
+
+<h3>Pool</h3>
+  <table>
+    <tr>
+      <td>Life</td>
+      <td><input type="number" id="life" value=5000 min=1 /></td>
+    </tr>
+    <tr>
+      <td>Energy shield</td>
+      <td><input type="number" id="shield" value=0 min=0 /></td>
+    </tr>
+  </table>
+
+  <h3>Regeneration</h3>
+  <table>
+    <tr>
+      <td><input type="number" id="percentregen" min=0 /></td>
+      <td>% life regen on tree</td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="checkbox" id="scionoccultist" /><label for="scionoccultist">Scion-Occultist (1% ES regen)</td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="checkbox" id="zealotsoath" /><label for="zealotsoath">Zealot's Oath</label></td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="checkbox" id="shaperseed" /><label for="shaperseed">Shaper's Seed (2% life regen)</label></td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="checkbox" id="shavsrevel" /><label for="shavsrevel">Shavronne's Revelation (3% ES regen when in in right ring slot</label></td>
+    </tr>
+    <tr>
+      <td><input type="number" id="endregen" value=0 min=0 /></td>
+      <td>% life regen per endurance charge</td>
+    </tr>
+    <tr>
+      <td>Level <input type="number" id="vitalitylevel" value=0 min=0 max=30 /></td>
+      <td>Vitality</td>
+    </tr>
+    <tr>
+      <td>Level <input type="number" id="rejuvlevel" value=0 min=0 max=30 /></td>
+      <td>Rejuvenation Totem</td>
+    </tr>
+  </table>
+
+  <h3>Other</h3>
+  <table>
+    <tr>
+      <td colspan=2><input type="checkbox" id="basalt" /><label for="basalt">Basalt Flask (20% phys reduction)</label></td>
+    </tr>
+    <tr>
+      <td><input type="number" id="flaskeffect" min=0 />
+      <td>% increased Effect of Flasks</td>
+    </tr>
+    <tr>
+      <td colspan=2><input type="checkbox" id="soulofsteel" /><label for="soulofsteel">Soul of Steel (4% phys reduction)</label></td>
+    </tr>
+    <tr>
+      <td><input type="number" id="endcharges" value=3 min=0 /></td>
+      <td>endurance charges</td>
+    </tr>
+    <tr>
+      <td colspan=2>Base trap damage:</td>
+    </tr>
+    <tr>
+      <td><input type="number" id="trapdps" value="100" min=0 />% EHP per second</td>
+      <td>as <input type="number" id="traprate" value="10" min=0 amx=20 /> hits per second</td>
+    </tr>
+  </table>
+
+  <h3>Results</h3>
+  <table>
+    <tr>
+      <td>Life regenerated per second</td>
+      <td><output id="liferegenflat"></output> life</td>
+      <td><output id="liferegenpercent"></output> % of maximum life</td>
+    </tr>
+    <tr>
+      <td>Energy Shield regenerated per second</td>
+      <td><output id="shieldregenflat"></output> ES</td>
+      <td><output id="shieldregenpercent"></output> % of maximum energy shield</td>
+    </tr>
+    <tr>
+      <td>To facetank traps, you need:</td>
+      <td><output id="extraphysred"></output> % extra physiscal damage reduction</td>
+      <td>or <output id="armour"></output> armour.</td>
+    </tr>
+  </table>
+
+</form>
+
+<h3>Info</h3>
+<p class="lead">This assumes that labyrinth traps (sawblades, spinning blades, blade sentries) deal damage as a rapid sequence of hits (which can be mitigated by armour), <strong>Based on reddit feedback, this is likely wrong. I'll fix this page when I find out for sure.</strong>
+rather than a degen (which can't). This seems to be supported by anecdotal evidence from high-armour characters running the labyrinth. If it's untrue, then there's no way
+to get enough regen and phys reduction to tank traps, so this page is pointless anyway. Note that as of patch 2.3.0, traps only count energy shield at 60% of its value.</p>
+
+<p class="lead">The armour formula can be found on the <a href="http://pathofexile.gamepedia.com/Armour#Required_Armour_Rating">Path of Exile wiki</a>.</p>
+
+<p class="lead">Made by <a href="http://www.pathofexile.com/account/view-profile/Solonarv">Solonarv</a>. You can also contact me on <a href="https://reddit.com/u/solonarv">reddit</a>
+or report issues on the <a href="https://github.com/Solonarv/solonarv.github.io/issues">tracker</a>.</p>
+
+<p class="lead">Last updated June 23, 2016.</p>
+
+
+</body>
+</html>

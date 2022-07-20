@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Solonarv's Blog - Making a blog with Hakyll 2: GitHub Pages & Travis</title>
+        <link rel="stylesheet" href="../css/default.css" />
+        <link rel="stylesheet" href="../css/syntax.css" />
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="../">Solonarv's Blog</a>
+            </div>
+            <nav>
+                <a href="../">Home</a>
+                <a href="../homebrew/">Homebrew</a>
+                <a href="../randomthings.html">Random Things</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+                <a href="../archive.html">Archive</a>
+            </nav>
+        </header>
+
+        <main role="main">
+            <h1>Making a blog with Hakyll 2: GitHub Pages & Travis</h1>
+            <article>
+    <section class="header">
+        Posted on Wednesday November 7, 2018
+        
+    </section>
+    <section>
+        <p>This is a follow-up to my previous post, <a href="../posts/2018-05-22-making-blog-with-hakyll.html">Making a blog with Hakyll</a>. You don’t need to read it, though; I started over (mostly) from scratch.</p>
+<p>As you may have already noticed, this blog is hosted on GitHub pages. This has a number of advantages, the main ones being that I don’t need to worry about hosting and can easily make the blog’s source code available. You can find the source code <a href="https://github.com/Solonarv/solonarv.com">here</a>.</p>
+<p>GitHub pages doesn’t support Hakyll out of the box, but it can serve a static site just fine. I just need to somehow upload Hakyll’s output into <a href="https://github.com/Solonarv/solonarv.github.io/tree/master">Solonarv/solonarv.github.io</a>’s master branch. Fortunately, that’s well within the abilities of a CI service. I chose <a href="https://travis-ci.org">Travis</a> because it’s the one I’m most familiar with, it’s free, and it has easy GitHub integration. On top of that, Travis has built-in facilities for deploying to GitHub pages, documented <a href="https://docs.travis-ci.com/user/deployment/pages/">here</a>.</p>
+<p>Travis expects its configuration in a <code>travis.yml</code> file in the repository’s root directory. Getting Travis to build my site generator and run it is fairly simple:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="fu">language</span><span class="kw">:</span><span class="at"> haskell</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="fu">script</span><span class="kw">:</span><span class="at"> stack build --fast &amp;&amp; stack exec -- site build</span></span></code></pre></div>
+<p>The <code>deploy</code> section needs a bit more configuration, because my use-case doesn’t exactly fit the default provided by Travis:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="fu">deploy</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="at">  </span><span class="fu">provider</span><span class="kw">:</span><span class="at"> pages</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="at">  </span><span class="fu">skip-cleanup</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="at">  </span><span class="fu">github-token</span><span class="kw">:</span><span class="at"> $GITHUB_TOKEN</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="at">  </span><span class="fu">keep-history</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a><span class="at">  </span><span class="fu">committer-from-gh</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="at">  </span><span class="fu">local-dir</span><span class="kw">:</span><span class="at"> _site</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="at">  </span><span class="fu">repo</span><span class="kw">:</span><span class="at"> Solonarv/solonarv.github.io</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="at">  </span><span class="fu">target-branch</span><span class="kw">:</span><span class="at"> master</span></span></code></pre></div>
+<p>This is still fairly straightforward, in my opinion. Let’s see if it works:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>$ <span class="fu">git</span> add --all</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>$ <span class="fu">git</span> commit</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>$ <span class="fu">git</span> push</span></code></pre></div>
+<p>Augh! Travis is installing cabal and trying to compile with that! That’s definitely not what I want. Fortunately, a quick search turns up <a href="https://docs.haskellstack.org/en/stable/travis_ci/">the <code>stack</code> docs</a>, which provide a ready-made <code>.travis.yml</code>. It’s fairly large, so I won’t be including it. Let’s try again.</p>
+<p>This first build takes a while (nearly 40 minutes, in fact!), since <code>stack</code> and hakyll’s dependencies need to be set up first; but future builds will be faster, because Travis can cache the results of that work.</p>
+<p>Now that I’ve got a successful build, it’s time to get the deployment working. <code>$GITHUB_TOKEN</code> needs to be set to an appropriately-scoped GitHub Personal Access Token, which is easy to set up.</p>
+<p>A few minutes later, and… it’s done! That was much easier than I expected it to be. All that’s left is to push the latest version of this very blog post.</p>
+    </section>
+</article>
+
+        </main>
+
+        <footer>
+            Site proudly generated by
+            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+            Found an issue?
+            <a href="https://github.com/Solonarv/solonarv.github.io/issues" target="_blank">
+                Report it!
+            </a> 
+        </footer>
+    </body>
+</html>
